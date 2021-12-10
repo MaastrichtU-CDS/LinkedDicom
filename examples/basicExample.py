@@ -1,7 +1,8 @@
 from LinkedDicom import LinkedDicom
 
 liDcm = LinkedDicom.LinkedDicom("../ontology/LinkedDicom.owl")
-liDcm.parseHeader("testfile.dcm", clearStore=True)
+liDcm.parseDcmFile("testfile.dcm", clearStore=True)
+# liDcm.processFolder("./testFolder/")
 
 qRes = liDcm.graphService.runSparqlQuery("""
     SELECT *

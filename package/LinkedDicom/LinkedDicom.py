@@ -18,7 +18,7 @@ class LinkedDicom:
             for filename in files:
                 file_path = os.path.join(root, filename)
                 if(file_path.endswith(".dcm") or file_path.endswith(".DCM")):
-                    self.parseHeader(file_path)
+                    self.parseDcmFile(file_path)
 
     def getTagValueForPredicate(self, dcmHeader, predicate):
         tagString = predicate.replace(self.ontologyPrefix + "T", "")
@@ -51,7 +51,7 @@ class LinkedDicom:
 
             self.createParentInstances(dcmHeader, newInstance, newClass)
 
-    def parseHeader(self, filePath, clearStore=False):
+    def parseDcmFile(self, filePath, clearStore=False):
         if clearStore:
             self.graphService = GraphService()
         
