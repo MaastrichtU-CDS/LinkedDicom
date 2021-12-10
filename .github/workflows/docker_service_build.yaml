@@ -7,7 +7,7 @@ env:
 
 jobs:
   
-  frontend:
+  webservice:
     runs-on: ubuntu-latest
     
     steps:
@@ -26,6 +26,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy ontology file
+        run: cp ontology/LinkedDicom.owl webservice/LinkedDicom.owl
       - name: Build container for service
         id: docker_build_frontend
         uses: docker/build-push-action@v2
