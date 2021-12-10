@@ -36,10 +36,10 @@ jobs:
           # file: frontend.Dockerfile
           push: true
           tags: ghcr.io/${{ env.REPO }}:${{ steps.extract_branch.outputs.branch }}
-      - name: Build container frontend Release (latest)
+      - name: Build container Release (latest)
         id: docker_build_frontend_release
         uses: docker/build-push-action@v2
-        if: steps.extract_branch.outputs.branch == 'master'
+        if: steps.extract_branch.outputs.branch == 'main'
         with:
           context: webservice
           # file: frontend.Dockerfile
