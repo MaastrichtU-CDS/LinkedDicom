@@ -8,10 +8,10 @@ from LinkedDicom.RDFService import GraphService
 from pydicom.tag import Tag
 
 class LinkedDicom:
-    def __init__(self):
-        self.ontologyService = OntologyService()
+    def __init__(self, ontologyFileLocation):
+        self.ontologyService = OntologyService(ontologyFileLocation)
         self.graphService = GraphService()
-        self.ontologyPrefix = "http://johanvansoest.nl/ontologies/LinkedDicom/"
+        self.ontologyPrefix = "https://johanvansoest.nl/ontologies/LinkedDicom/"
 
     def processFolder(self, folderLocation):
         for root, subdirs, files in os.walk(folderLocation):

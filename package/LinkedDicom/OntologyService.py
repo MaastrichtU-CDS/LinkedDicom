@@ -7,16 +7,16 @@ class PropertyType(Enum):
     OBJECT = 'object'
 
 class OntologyService:
-    def __init__(self):
+    def __init__(self, ontologyFileLocation):
         self.__ontology = rdflib.Graph()
-        self.__ontology.parse("LinkedDicom.owl")
+        self.__ontology.parse(ontologyFileLocation)
 
     def predicateExists(self, predicateUri):
         return (URIRef(predicateUri), None, None) in self.__ontology
     
     def getPredicatePropertyType(self, predicateUri):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -34,7 +34,7 @@ class OntologyService:
     
     def relatedToInformationEntity(self, predicateUri):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -48,7 +48,7 @@ class OntologyService:
 
     def getRelatedSequenceItemClass(self, sequenceClass):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -63,7 +63,7 @@ class OntologyService:
     
     def relatedToSequence(self, predicateUri):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -77,7 +77,7 @@ class OntologyService:
 
     def getObjectPredicatesForClassRange(self, classUri):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -98,7 +98,7 @@ class OntologyService:
     
     def getKeyForClass(self, classUri):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -116,7 +116,7 @@ class OntologyService:
     
     def getClassForUID(self, uid):
         result = self.__ontology.query("""
-            PREFIX ldcm: <http://johanvansoest.nl/ontologies/LinkedDicom/>
+            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
@@ -127,4 +127,4 @@ class OntologyService:
         """ % uid)
         for row in result:
             return row["class"]
-        return "http://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"
+        return "https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"

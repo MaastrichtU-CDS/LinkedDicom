@@ -4,7 +4,7 @@ from rdflib import RDF, RDFS, Literal, URIRef
 class GraphService:
     def __init__(self):
         self.__graph = rdflib.Graph()
-        self.__graph.bind('ldcm', 'http://johanvansoest.nl/ontologies/LinkedDicom/')
+        self.__graph.bind('ldcm', 'https://johanvansoest.nl/ontologies/LinkedDicom/')
         self.__graph.bind('data', 'http://data.local/rdf/linkeddicom/')
         self.__graph.bind('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 
@@ -64,3 +64,6 @@ class GraphService:
     
     def getTriplesTurtle(self):
         return self.__graph.serialize(format='nt')
+    
+    def runSparqlQuery(self, queryString):
+        return self.__graph.query(queryString)
