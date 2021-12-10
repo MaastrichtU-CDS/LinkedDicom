@@ -2,15 +2,15 @@ from setuptools import setup
 
 setup(
     name='LinkedDicom',
-    version='0.1.0',
+    version='0.1.3',
     author='Johan van Soest',
     author_email='j.vansoest@maastrichtuniversity.nl',
     packages=['LinkedDicom'],
     # scripts=['bin/script1','bin/script2'],
-    url='http://pypi.python.org/pypi/LinkedDicom/',
-    license='../LICENSE',
+    url='https://github.com/MaastrichtU-CDS/LinkedDicom',
+    license='Apache 2.0',
     description='A package to extract DICOM header data and store this in RDF',
-    long_description=open('../README.md').read(),
+    long_description="A package to extract DICOM header data and store this in RDF",
     install_requires=[
         "pydicom",
         "rdflib",
