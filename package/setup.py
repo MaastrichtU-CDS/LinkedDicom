@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='LinkedDicom',
-    version='0.1.3',
+    version='0.2.0',
     author='Johan van Soest',
     author_email='j.vansoest@maastrichtuniversity.nl',
     packages=['LinkedDicom'],
