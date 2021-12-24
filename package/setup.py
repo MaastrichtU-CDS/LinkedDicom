@@ -16,4 +16,7 @@ setup(
         "rdflib",
         "requests"
     ],
+    package_data = {
+        '': ['*.owl'],
+    }
 )
