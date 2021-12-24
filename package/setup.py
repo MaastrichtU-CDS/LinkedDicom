@@ -6,7 +6,7 @@ setup(
     author='Johan van Soest',
     author_email='j.vansoest@maastrichtuniversity.nl',
     packages=['LinkedDicom'],
-    # scripts=['bin/script1','bin/script2'],
+    scripts = ['bin/ldcm'],
     url='https://github.com/MaastrichtU-CDS/LinkedDicom',
     license='Apache 2.0',
     description='A package to extract DICOM header data and store this in RDF',

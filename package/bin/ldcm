@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+from LinkedDicom import LinkedDicom
+import argparse
+import os
+
+def main_parse(args):
+    """
+    Main function when parsing a folder
+    """
+    ldcm = None
+    
+    ontology_file_path = args.ontology_file
+    if ontology_file_path is None:
+        import pkg_resources
+        my_data = pkg_resources.resource_string(LinkedDicom.__name__, "LinkedDicom.owl")
+        ldcm = LinkedDicom.LinkedDicom(my_data, True)
+    else:
+        ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
+    
+    ldcm.processFolder(args.dicom_input_folder)
+    ldcm.saveResults(os.path.join(args.dicom_input_folder, "linkeddicom.ttl"))
+
+def main():
+    mode_options = ["parse", "service"]
+
+    parser = argparse.ArgumentParser(description="LinkedDicom command line utility")
+    # Set the default for the dataset argument
+    parser.add_argument("-m", "--mode", choices=mode_options, default="parse", help="Decide to run as a one-time parser on local files, or as a webservice. Default mode is 'parse'.")
+    parser.add_argument("-d", "--dicom-input-folder", default="./dicom", help="Location of dicom folder for parsing. Default: ./dicom")
+    parser.add_argument("-o", "--ontology-file", help="Location of ontology file to use for override.")
+    args = parser.parse_args()
+
+    if args.mode=="parse":
+        main_parse(args)
+    
+    if args.mode=="service":
+        print("The service option as not been implemented yet.")
+
+if __name__=="__main__":
+    main()
