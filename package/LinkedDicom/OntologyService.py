@@ -8,11 +8,11 @@ class PropertyType(Enum):
 
 class OntologyService:
     def __init__(self, ontologyContents, ontologyString=False):
+        self.__ontology = rdflib.Graph()
         if ontologyString:
-            self.__ontology = rdflib.Graph(data=ontologyContents)
+            self.__ontology.parse(data=ontologyContents, format='xml')
         else:
-            self.__ontology = rdflib.Graph()
-        self.__ontology.parse(ontologyFileLocation)
+            self.__ontology.parse(ontologyContents)
 
     def predicateExists(self, predicateUri):
         return (URIRef(predicateUri), None, None) in self.__ontology

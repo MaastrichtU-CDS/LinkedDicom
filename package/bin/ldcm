@@ -17,9 +17,14 @@ def main_parse(args):
         ldcm = LinkedDicom.LinkedDicom(my_data, True)
     else:
         ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
+
+    print(f"Start processing folder {args.dicom_input_folder}. Depending on the folder size this might take a while.")
     
     ldcm.processFolder(args.dicom_input_folder)
-    ldcm.saveResults(os.path.join(args.dicom_input_folder, "linkeddicom.ttl"))
+    
+    output_location = os.path.join(args.dicom_input_folder, "linkeddicom.ttl") 
+    ldcm.saveResults(output_location)
+    print("Stored results in " + output_location)
 
 def main():
     mode_options = ["parse", "service"]
