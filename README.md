@@ -26,3 +26,5 @@ Options:
   -o, --ontology-file TEXT  Location of ontology file to use for override.
   --help                    Show this message and exit.
 ```
+
+The output is saved in linkeddicom.ttl in the DICOM_INPUT_FOLDER. This data can be used by importing it into an RDF endpoint (such as Apache Jena or GraphDB).
