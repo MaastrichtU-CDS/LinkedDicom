@@ -8,8 +8,8 @@ from LinkedDicom.RDFService import GraphService
 from pydicom.tag import Tag
 
 class LinkedDicom:
-    def __init__(self, ontologyFileLocation):
-        self.ontologyService = OntologyService(ontologyFileLocation)
+    def __init__(self, ontologyContents, ontologyString=False):
+        self.ontologyService = OntologyService(ontologyContents, ontologyString)
         self.graphService = GraphService()
         self.ontologyPrefix = "https://johanvansoest.nl/ontologies/LinkedDicom/"
 

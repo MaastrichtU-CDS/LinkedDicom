@@ -2,3 +2,5 @@ env
 package/build
 package/dist
 *.egg-info
+package/LinkedDicom/LinkedDicom.owl
+__pycache__
