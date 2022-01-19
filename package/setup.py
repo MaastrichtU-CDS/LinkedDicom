@@ -14,11 +14,14 @@ setup(
         "pydicom",
         "rdflib",
         "requests",
-        "click"
+        "click",
+        "pynetdicom",
+        "requests"
     ],
     entry_points = {
         'console_scripts': [
-            'ldcm-parse = LinkedDicom.cli:main_parse'
+            'ldcm-parse = LinkedDicom.cli:main_parse',
+            'ldcm-scp = LinkedDicom.CLI_SCP:start_scp'
         ]
     },
     package_data = {

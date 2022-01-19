@@ -12,7 +12,13 @@ The following content is available:
 * The use as command-line utility is below
 
 ## Use as command-line utility
-At the moment, there is one command line to parse a given folder. This is done using the `ldcm-parse` command.
+At the moment, there are two command line utilities:
+
+- Parsing folders locally using `ldcm-parse`
+- A DICOM SCP service using `ldcm-scp`
+
+### Parsing folders locally
+This tool can be usefull if you have a (limited) folder of DICOM files and want to create a local turtle file.
 A full description of the command is given when executing `ldcm-parse --help`.
 
 A copy of this help is presented below:
@@ -28,3 +34,29 @@ Options:
 ```
 
 The output is saved in linkeddicom.ttl in the DICOM_INPUT_FOLDER. This data can be used by importing it into an RDF endpoint (such as Apache Jena or GraphDB).
+
+### DICOM SCP service
+This tool can be used if you want to start a DICOM SCP service which supports C-STORE commands.
+A full description of the command is given when executing `ldcm-scp --help`.
+
+A copy of this help is presented below:
+```
+Usage: ldcm-scp [OPTIONS] PORT
+
+  Create a DICOM SCP which can accept C-STORE commands. For every association,
+  an analysis is triggered on association close. For every association close,
+  the analysis is triggered in a separate thread.
+
+Options:
+  -o, --ontology-file TEXT    Location of ontology file to use for override.
+  -s, --sparql-endpoint TEXT  SPARQL endpoint URL to post the resulting
+                              triples towards
+  --help                      Show this message and exit.
+```
+
+By default, the UUID for the DICOM association is used as filename for the created local turtle file.
+If someone uses the optional -s tag, users can send data to a specific SPARQL endpoint (e.g. GraphDB or other SPARQL endpoints). An example URL is given below. Mind that there is a named graph (http://ldcm.local/) specified. This is optional and depends on the REST-API possibilities.
+
+```
+ldcm-scp -s "https://graphdb.jvsoest.eu/repositories/public_dump/statements?context\=%3Chttp://ldcm.local/%3E" 104
+```

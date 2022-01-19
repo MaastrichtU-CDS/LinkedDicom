@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from LinkedDicom import LinkedDicom
-import argparse
 import os
 import click
 
