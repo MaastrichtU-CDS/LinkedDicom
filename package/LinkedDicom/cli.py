@@ -12,15 +12,7 @@ def main_parse(dicom_input_folder, ontology_file):
     Search the DICOM_INPUT_FOLDER for dicom files, and process these files.
     The resulting turtle file will be stored in linkeddicom.ttl within this folder
     """
-    ldcm = None
-    
-    ontology_file_path = ontology_file
-    if ontology_file_path is None:
-        import pkg_resources
-        my_data = pkg_resources.resource_string(LinkedDicom.__name__, "LinkedDicom.owl")
-        ldcm = LinkedDicom.LinkedDicom(my_data, True)
-    else:
-        ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
+    ldcm = LinkedDicom.LinkedDicom(ontology_file)
 
     print(f"Start processing folder {dicom_input_folder}. Depending on the folder size this might take a while.")
     

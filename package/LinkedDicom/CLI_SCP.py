@@ -93,13 +93,7 @@ def start_scp(port, ontology_file, sparql_endpoint):
     ae.start_server(('', port), evt_handlers=handlers)
 
 def run_ldcm(dict_info, ontology_file_path, sparql_endpoint_url):
-    # Determine external ontology file or embedded in package
-    if ontology_file_path is None:
-        import pkg_resources
-        my_data = pkg_resources.resource_string(LinkedDicom.__name__, "LinkedDicom.owl")
-        ldcm = LinkedDicom.LinkedDicom(my_data, True)
-    else:
-        ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
+    ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
     
     dicom_input_folder = dict_info['directory']
     print(f"Start processing folder {dicom_input_folder}. Depending on the folder size this might take a while.")
