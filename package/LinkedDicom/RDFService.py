@@ -56,7 +56,8 @@ class GraphService:
         self.__graph.add([self.replaceShortToUri(instanceIri), self.replaceShortToUri(predicate), self.replaceShortToUri(value)])
     
     def getAllTriples(self):
-        return str(self.__graph.serialize(format="n3"), 'utf-8')
+        # return str(self.__graph.serialize(format="n3"), 'utf-8')
+        return self.__graph.serialize(format="n3")
     
     def saveTriples(self, filePath):
         with open(filePath, "w") as text_file:

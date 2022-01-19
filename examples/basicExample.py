@@ -1,6 +1,6 @@
 from LinkedDicom import LinkedDicom
 
-liDcm = LinkedDicom.LinkedDicom("../ontology/LinkedDicom.owl")
+liDcm = LinkedDicom.LinkedDicom()
 liDcm.parseDcmFile("testfile.dcm", clearStore=True)
 # liDcm.processFolder("./testFolder/")
 

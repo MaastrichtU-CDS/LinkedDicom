@@ -2,11 +2,10 @@ from setuptools import setup
 
 setup(
     name='LinkedDicom',
-    version='0.1.3',
+    version='0.2.0',
     author='Johan van Soest',
     author_email='j.vansoest@maastrichtuniversity.nl',
     packages=['LinkedDicom'],
-    # scripts=['bin/script1','bin/script2'],
     url='https://github.com/MaastrichtU-CDS/LinkedDicom',
     license='Apache 2.0',
     description='A package to extract DICOM header data and store this in RDF',
@@ -14,6 +13,18 @@ setup(
     install_requires=[
         "pydicom",
         "rdflib",
+        "requests",
+        "click",
+        "pynetdicom",
         "requests"
     ],
+    entry_points = {
+        'console_scripts': [
+            'ldcm-parse = LinkedDicom.cli:main_parse',
+            'ldcm-scp = LinkedDicom.CLI_SCP:start_scp'
+        ]
+    },
+    package_data = {
+        '': ['*.owl'],
+    }
 )

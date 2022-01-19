@@ -7,9 +7,12 @@ class PropertyType(Enum):
     OBJECT = 'object'
 
 class OntologyService:
-    def __init__(self, ontologyFileLocation):
+    def __init__(self, ontologyContents, ontologyString=False):
         self.__ontology = rdflib.Graph()
-        self.__ontology.parse(ontologyFileLocation)
+        if ontologyString:
+            self.__ontology.parse(data=ontologyContents, format='xml')
+        else:
+            self.__ontology.parse(ontologyContents)
 
     def predicateExists(self, predicateUri):
         return (URIRef(predicateUri), None, None) in self.__ontology
