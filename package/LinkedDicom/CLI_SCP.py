@@ -3,8 +3,8 @@ import click
 import os
 import uuid
 import json
-import time
 import shutil
+import requests
 from multiprocessing import Process
 
 from pynetdicom import (
@@ -13,12 +13,14 @@ from pynetdicom import (
 )
 
 class SCP_handlers:
-    def __init__(self):
+    def __init__(self, ontology_file, sparql_endpoint):
         # Create association list
         self.__assocFolderDict = { }
         # Create folder where results are actually stored
         self.__dataDir = os.path.join("ldcm_scp_data")
         os.makedirs(self.__dataDir, exist_ok=True)
+        self.__ontology_file = ontology_file
+        self.__sparql_endpoint = sparql_endpoint
     
     def handle_assoc_open(self, event):
         """
@@ -61,21 +63,20 @@ class SCP_handlers:
         os.system("chmod -R 777 %s" % self.__assocFolderDict[event.assoc]["directory"])
         
         print("Try to start process")
-        p = Process(target=run_ldcm, args=(self.__assocFolderDict[event.assoc],))
+        p = Process(target=run_ldcm, args=(self.__assocFolderDict[event.assoc],self.__ontology_file,self.__sparql_endpoint,))
         p.start()
-
-ontology_file_path = None
 
 @click.command()
 @click.argument('port', type=click.INT)
 @click.option('-o', '--ontology-file', help='Location of ontology file to use for override.')
-def start_scp(port, ontology_file):
+@click.option('-s', '--sparql-endpoint', help='SPARQL endpoint URL to post the resulting triples towards')
+def start_scp(port, ontology_file, sparql_endpoint):
     """
     Create a DICOM SCP which can accept C-STORE commands. For every association, an analysis is triggered on association close.
     For every association close, the analysis is triggered in a separate thread.
     """
-    ontology_file_path = ontology_file
-    scpHandlers = SCP_handlers()
+
+    scpHandlers = SCP_handlers(ontology_file, sparql_endpoint)
     handlers = [(evt.EVT_C_STORE, scpHandlers.handle_store), (evt.EVT_CONN_OPEN, scpHandlers.handle_assoc_open), (evt.EVT_CONN_CLOSE, scpHandlers.handle_assoc_close)]
 
     # Initialise the Application Entity
@@ -85,11 +86,13 @@ def start_scp(port, ontology_file):
     ae.supported_contexts = StoragePresentationContexts
 
     print(f"Starting DICOM SCP on port {port}")
+    if sparql_endpoint is not None:
+        print(f"SPARQL endpoint: {sparql_endpoint}")
 
     # Start listening for incoming association requests
     ae.start_server(('', port), evt_handlers=handlers)
 
-def run_ldcm(dict_info):
+def run_ldcm(dict_info, ontology_file_path, sparql_endpoint_url):
     # Determine external ontology file or embedded in package
     if ontology_file_path is None:
         import pkg_resources
@@ -103,12 +106,23 @@ def run_ldcm(dict_info):
     
     ldcm.processFolder(dicom_input_folder)
 
-    output_location = os.path.join(dicom_input_folder, "..", f"{dict_info['uuid']}.ttl") 
-    ldcm.saveResults(output_location)
-
+    if sparql_endpoint_url is None:
+        output_location = os.path.join(dicom_input_folder, "..", f"{dict_info['uuid']}.ttl") 
+        ldcm.saveResults(output_location)
+        print("Stored results in " + output_location)
+    else:
+        turtle = ldcm.graphService.getTriplesTurtle()
+        loadRequest = requests.post(sparql_endpoint_url,
+            data=turtle, 
+            headers={
+                "Content-Type": "application/x-turtle"
+            }
+        )
+        
+        if loadRequest.status_code >= 200 | loadRequest.status_code > 210:
+            print(f"Received error code {loadRequest.status_code}\n{loadRequest.text}")
 
     shutil.rmtree(dicom_input_folder)
-    print("Stored results in " + output_location)
 
 if __name__=="__main__":
     start_scp()

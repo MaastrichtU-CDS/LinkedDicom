@@ -4,3 +4,4 @@ package/dist
 *.egg-info
 package/LinkedDicom/LinkedDicom.owl
 __pycache__
+ldcm_scp_data
