@@ -7,7 +7,7 @@ Mind this repository is work-in-progress and has not been finalised yet.
 The following content is available:
 * The ontology used is available in the folder [./ontology](./ontology).
 * The main contents of the python package are available in [./package](./package)
-* An example for using the package as a python API is available in [./examples](./examples)
+* An example for using the package (as a python API, and for example SPARQL queries) is available in [./examples](./examples)
 * The use as command-line utility is below
 
 ## Installation instructions
