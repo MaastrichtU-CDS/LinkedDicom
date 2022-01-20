@@ -10,6 +10,15 @@ The following content is available:
 * An example for using the package as a python API is available in [./examples](./examples)
 * The use as command-line utility is below
 
+## Installation instructions
+Currently, the tool has been tested with Python version 3.8.10.
+You can find the installation instructions for python [here](https://www.python.org/downloads/).
+
+Afterwards, you can run the following command to install the package from PyPI:
+```
+pip install LinkedDicom
+```
+
 ## Use as command-line utility
 At the moment, there are two command line utilities:
 
