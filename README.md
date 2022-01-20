@@ -8,7 +8,6 @@ The following content is available:
 * The ontology used is available in the folder [./ontology](./ontology).
 * The main contents of the python package are available in [./package](./package)
 * An example for using the package as a python API is available in [./examples](./examples)
-* The docker implementation as webservice is available in [./webservice](./webservice)
 * The use as command-line utility is below
 
 ## Use as command-line utility
@@ -59,4 +58,10 @@ If someone uses the optional -s tag, users can send data to a specific SPARQL en
 
 ```
 ldcm-scp -s "https://graphdb.jvsoest.eu/repositories/public_dump/statements?context\=%3Chttp://ldcm.local/%3E" 104
+```
+
+Afterwards, you can send data using DICOM protocol to this service using e.g. [DCMTK](https://dicom.offis.de/dcmtk.php.en). For example using the command below:
+
+```
+storescu +r +sd localhost 104 ./
 ```
