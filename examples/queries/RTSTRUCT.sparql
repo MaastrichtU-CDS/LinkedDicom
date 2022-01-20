@@ -1,0 +1,23 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
+
+SELECT ?patient ?study ?rtStruct ?structureName
+WHERE {
+    ?patient rdf:type ldcm:Patient;
+    	ldcm:T00100020 ?patientId;
+     	ldcm:has_study ?study.
+    ?study ldcm:has_series ?seriesStruct.
+    
+    ?seriesStruct rdf:type ldcm:Series;
+                  ldcm:T00080060 "RTSTRUCT";
+    			  ldcm:has_image ?rtStruct.
+    
+    ?rtStruct rdf:type ldcm:Radiotherapy_Structure_Object;
+    	ldcm:T30060020 [
+            rdf:type ldcm:Structure_Set_ROI_Sequence;
+            ldcm:has_sequence_item [
+        		rdf:type ldcm:Structure_Set_ROI_Sequence_Item;
+                ldcm:T30060026 ?structureName;
+            ];
+        ].
+}
