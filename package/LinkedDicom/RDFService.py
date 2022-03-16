@@ -60,7 +60,7 @@ class GraphService:
         return self.__graph.serialize(format="n3")
     
     def saveTriples(self, filePath):
-        with open(filePath, "w") as text_file:
+        with open(filePath, "wb") as text_file:
             text_file.write(self.getAllTriples())
     
     def getTriplesTurtle(self):

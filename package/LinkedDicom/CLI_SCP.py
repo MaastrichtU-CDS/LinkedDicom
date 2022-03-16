@@ -57,7 +57,7 @@ class SCP_handlers:
         Handle association close, and trigger the analysis
         """
         print("association closed: " + str(self.__assocFolderDict[event.assoc]["uuid"]))
-        with open(os.path.join(self.__assocFolderDict[event.assoc]["directory"], "output.json"), "w") as f:
+        with open(os.path.join(self.__assocFolderDict[event.assoc]["directory"], "output.json"), "wb") as f:
             json.dump(self.__assocFolderDict[event.assoc], f)
 
         os.system("chmod -R 777 %s" % self.__assocFolderDict[event.assoc]["directory"])
