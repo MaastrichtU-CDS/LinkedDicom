@@ -57,7 +57,10 @@ class GraphService:
     
     def getAllTriples(self):
         # return str(self.__graph.serialize(format="n3"), 'utf-8')
-        return self.__graph.serialize(format="n3")
+        allTriplesSerialized = self.__graph.serialize(format="n3")
+        if not (type(allTriplesSerialized) == str):
+            allTriplesSerialized = allTriplesSerialized.decode('utf-8')
+        return allTriplesSerialized
     
     def saveTriples(self, filePath):
         with open(filePath, "w") as text_file:
