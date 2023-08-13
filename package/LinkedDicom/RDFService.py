@@ -8,6 +8,10 @@ class GraphService:
         self.__graph.bind('data', 'http://data.local/rdf/linkeddicom/')
         self.__graph.bind('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 
+    def __init__(self, filePath):
+        self.__init__()
+        self.__graph.parse(filePath)
+
     def replaceUriToShort(self, uriString):
         for ns in self.__graph.namespaces():
             uriString = uriString.replace(str(ns[1]), str(ns[0]) + ":")
