@@ -2,15 +2,14 @@ import rdflib
 from rdflib import RDF, RDFS, Literal, URIRef
 
 class GraphService:
-    def __init__(self):
+    def __init__(self, filePath=None):
         self.__graph = rdflib.Graph()
         self.__graph.bind('ldcm', 'https://johanvansoest.nl/ontologies/LinkedDicom/')
         self.__graph.bind('data', 'http://data.local/rdf/linkeddicom/')
         self.__graph.bind('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 
-    def __init__(self, filePath):
-        self.__init__()
-        self.__graph.parse(filePath)
+        if filePath is not None:
+            self.__graph.parse(filePath)
 
     def replaceUriToShort(self, uriString):
         for ns in self.__graph.namespaces():
