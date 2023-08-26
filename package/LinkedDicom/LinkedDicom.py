@@ -56,6 +56,8 @@ class LinkedDicom:
             self.graphService.addPredicateObjectToInstance(newInstance, predicate, currentInstance)
 
             self.createParentInstances(dcmHeader, newInstance, newClass)
+        
+        return newInstance
 
     def parseDcmFile(self, filePath, clearStore=False):
         if clearStore:
@@ -69,7 +71,10 @@ class LinkedDicom:
         keyForInstance = self.ontologyService.getKeyForClass(iodClass)
         iodInstance = self.graphService.createOrGetInstance(iodClass, self.getTagValueForPredicate(dcmHeader, keyForInstance), keyForInstance)
 
-        self.createParentInstances(dcmHeader, iodInstance, iodClass)
+        currentInstanceIRI = self.createParentInstances(dcmHeader, iodInstance, iodClass)
+        if currentInstanceIRI is not None:
+            self.graphService.addPredicateObjectToInstance(currentInstanceIRI, self.graphService.valueAsIri("https://schema.org/contentUrl"), self.graphService.valueAsIri(f"file://{os.path.abspath(filePath)}"))
+            self.graphService.addPredicateLiteralToInstance(currentInstanceIRI, self.graphService.valueAsIri("https://schema.org/encodingFormat"), "application/dicom")
 
         for key in dcmHeader.keys():
             element = dcmHeader[key]
