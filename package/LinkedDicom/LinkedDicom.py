@@ -72,8 +72,8 @@ class LinkedDicom:
         self.createParentInstances(dcmHeader, sopInstanceUID, iodClass)
         
         if persistentStorage:
-            self.graphService.addPredicateObjectToInstance(sopInstanceUID, self.graphService.valueAsIri("schema:contentUrl"), self.graphService.valueAsIri(f"file:{os.path.abspath(filePath)}"))
-            self.graphService.addPredicateLiteralToInstance(sopInstanceUID, self.graphService.valueAsIri("schema:encodingFormat"), "application/dicom")
+            self.graphService.addPredicateLiteralToInstance(sopInstanceUID, self.graphService.replaceShortToUri("schema:contentUrl"), self.graphService.replaceShortToUri(f"file:{os.path.abspath(filePath)}"))
+            self.graphService.addPredicateLiteralToInstance(sopInstanceUID, self.graphService.replaceShortToUri("schema:encodingFormat"), "application/dicom")
 
         for key in dcmHeader.keys():
             element = dcmHeader[key]
