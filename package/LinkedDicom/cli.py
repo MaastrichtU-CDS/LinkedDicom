@@ -7,16 +7,18 @@ import click
 @click.command()
 @click.argument('dicom-input-folder', type=click.Path(exists=True))
 @click.option('-o', '--ontology-file', help='Location of ontology file to use for override.')
-def main_parse(dicom_input_folder, ontology_file):
+@click.option('-fp', '--file-persistent', is_flag=True, default=False, help='Store file path while parsing metadata.')
+def main_parse(dicom_input_folder, ontology_file, file_persistent):
     """
     Search the DICOM_INPUT_FOLDER for dicom files, and process these files.
     The resulting turtle file will be stored in linkeddicom.ttl within this folder
     """
     ldcm = LinkedDicom.LinkedDicom(ontology_file)
+    print(file_persistent)
 
     print(f"Start processing folder {dicom_input_folder}. Depending on the folder size this might take a while.")
     
-    ldcm.processFolder(dicom_input_folder)
+    ldcm.processFolder(dicom_input_folder, persistentStorage=file_persistent)
     
     output_location = os.path.join(dicom_input_folder, "linkeddicom.ttl") 
     ldcm.saveResults(output_location)
