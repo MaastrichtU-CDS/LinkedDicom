@@ -19,12 +19,12 @@ class LinkedDicom:
         self.graphService = GraphService()
         self.ontologyPrefix = "https://johanvansoest.nl/ontologies/LinkedDicom/"
 
-    def processFolder(self, folderLocation):
+    def processFolder(self, folderLocation, persistentStorage=False):
         for root, subdirs, files in os.walk(folderLocation):
             for filename in files:
                 file_path = os.path.join(root, filename)
                 if(file_path.endswith(".dcm") or file_path.endswith(".DCM")):
-                    self.parseDcmFile(file_path)
+                    self.parseDcmFile(file_path, persistentStorage=persistentStorage)
 
     def getTagValueForPredicate(self, dcmHeader, predicate):
         tagString = predicate.replace(self.ontologyPrefix + "T", "")
@@ -56,10 +56,8 @@ class LinkedDicom:
             self.graphService.addPredicateObjectToInstance(newInstance, predicate, currentInstance)
 
             self.createParentInstances(dcmHeader, newInstance, newClass)
-        
-        return newInstance
 
-    def parseDcmFile(self, filePath, clearStore=False):
+    def parseDcmFile(self, filePath, clearStore=False, persistentStorage=False):
         if clearStore:
             self.graphService = GraphService()
         
@@ -69,18 +67,19 @@ class LinkedDicom:
 
         iodClass = self.ontologyService.getClassForUID(sopClassUid)
         keyForInstance = self.ontologyService.getKeyForClass(iodClass)
-        iodInstance = self.graphService.createOrGetInstance(iodClass, self.getTagValueForPredicate(dcmHeader, keyForInstance), keyForInstance)
+        sopInstanceUID = self.graphService.createOrGetInstance(iodClass, self.getTagValueForPredicate(dcmHeader, keyForInstance), keyForInstance)
 
-        currentInstanceIRI = self.createParentInstances(dcmHeader, iodInstance, iodClass)
-        if currentInstanceIRI is not None:
-            self.graphService.addPredicateObjectToInstance(currentInstanceIRI, self.graphService.valueAsIri("https://schema.org/contentUrl"), self.graphService.valueAsIri(f"file://{os.path.abspath(filePath)}"))
-            self.graphService.addPredicateLiteralToInstance(currentInstanceIRI, self.graphService.valueAsIri("https://schema.org/encodingFormat"), "application/dicom")
+        self.createParentInstances(dcmHeader, sopInstanceUID, iodClass)
+        
+        if persistentStorage:
+            self.graphService.addPredicateObjectToInstance(sopInstanceUID, self.graphService.valueAsIri("schema:contentUrl"), self.graphService.valueAsIri(f"file:{os.path.abspath(filePath)}"))
+            self.graphService.addPredicateLiteralToInstance(sopInstanceUID, self.graphService.valueAsIri("schema:encodingFormat"), "application/dicom")
 
         for key in dcmHeader.keys():
             element = dcmHeader[key]
 
             if element.VR == "SQ":
-                self.parseSequence(dcmHeader, element, iodInstance)
+                self.parseSequence(dcmHeader, element, sopInstanceUID)
             else:
                 self.parseElement(dcmHeader, element, None)
         
