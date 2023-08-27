@@ -21,6 +21,7 @@ setup(
     entry_points = {
         'console_scripts': [
             'ldcm-parse = LinkedDicom.cli:main_parse',
+            'ldcm-calc-dvh = LinkedDicom.cli:calc_dvh',
             'ldcm-scp = LinkedDicom.CLI_SCP:start_scp'
         ]
     },
