@@ -14,7 +14,6 @@ def main_parse(dicom_input_folder, ontology_file, file_persistent):
     The resulting turtle file will be stored in linkeddicom.ttl within this folder
     """
     ldcm = LinkedDicom.LinkedDicom(ontology_file)
-    print(file_persistent)
 
     print(f"Start processing folder {dicom_input_folder}. Depending on the folder size this might take a while.")
     
