@@ -8,7 +8,7 @@ class GraphService:
         self.__graph.bind('data', 'http://data.local/rdf/linkeddicom/')
         self.__graph.bind('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
         self.__graph.bind('schema', 'https://schema.org/')
-        self.__graph.bind('file', 'file://')
+        self.__graph.bind('file', 'file:/')
 
         if filePath is not None:
             self.__graph.parse(filePath)
