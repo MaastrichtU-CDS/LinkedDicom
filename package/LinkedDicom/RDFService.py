@@ -34,7 +34,7 @@ class GraphService:
     def instanceIriExists(self, iriString):
         return (self.replaceShortToUri(iriString), None, None) in self.__graph
 
-    def createOrGetInstance(self, classUri, identifier, identifierPredicate):
+    def createOrGetInstance(self, classUri, identifier, identifierPredicate=None):
         iriClass = self.replaceUriToShort(classUri)
         if identifier.startswith("data:"):
             instanceIri = identifier
