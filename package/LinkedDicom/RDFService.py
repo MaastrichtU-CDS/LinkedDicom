@@ -11,7 +11,7 @@ class GraphService:
         self.__graph.bind('file', 'file:/')
 
         if filePath is not None:
-            self.__graph.parse(filePath)
+            self.__graph.parse(filePath, format=rdflib.util.guess_format(filePath))
 
     def replaceUriToShort(self, uriString):
         for ns in self.__graph.namespaces():
