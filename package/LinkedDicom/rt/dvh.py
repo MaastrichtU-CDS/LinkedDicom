@@ -1,5 +1,8 @@
 from LinkedDicom import RDFService
 from abc import ABC, abstractmethod
+from dicompylercore import dicomparser, dvh, dvhcalc # TODO do not load this module if dicompyler is not used
+import rdflib
+import json
 
 class DVH_factory(ABC):
     def __init__(self, filePath):
@@ -51,3 +54,32 @@ class DVH_dicompyler(DVH_factory):
         dcmDosePackages = self.__find_complete_packages()
         for dosePackage in dcmDosePackages:
             print(f"{dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
+            print(json.dumps(self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath), indent=2))
+
+    
+    def __get_dvh_for_structures(self, rtStructPath, rtDosePath):
+        if type(rtStructPath) == rdflib.term.URIRef:
+            rtStructPath = str(rtStructPath).replace("file://", "")
+        structObj = dicomparser.DicomParser(rtStructPath)
+        
+        if type(rtDosePath) == rdflib.term.URIRef:
+            rtDosePath = str(rtDosePath).replace("file://", "")
+        doseObj = dicomparser.DicomParser(rtDosePath)
+
+        structures = structObj.GetStructures()
+        dvh_list = [ ]
+        for index in structures:
+            structure = structures[index]
+            calcdvh = dvhcalc.get_dvh(rtStructPath, rtDosePath, index)
+            structOut = {
+                "structureName": structure["name"],
+                "min": calcdvh.min,
+                "mean": calcdvh.mean,
+                "max": calcdvh.max,
+                "volume": int(calcdvh.volume),
+                "color": structure["color"].tolist(),
+                "dvh_d": calcdvh.bincenters.tolist(),
+                "dvh_v": calcdvh.counts.tolist()
+            }
+            dvh_list.append(structOut)
+        return dvh_list
