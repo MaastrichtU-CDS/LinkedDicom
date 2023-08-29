@@ -25,8 +25,8 @@ def main_parse(dicom_input_folder, ontology_file, file_persistent):
     print("Stored results in " + output_location)
 
 @click.command()
-@click.argument('ldcm-rdf-location', type=click.Path(exists=True), help="Location of LinkedDicom file to be parsed.")
-@click.argument('output_location', type=click.Path(exists=False), help="Location of output file to be created.")
+@click.argument('ldcm-rdf-location', type=click.Path(exists=True))
+@click.argument('output_location', type=click.Path(exists=False))
 def calc_dvh(ldcm_rdf_location, output_location):
     dvh_factory = dvh.DVH_dicompyler(ldcm_rdf_location)
     dvh_factory.calculate_dvh()
