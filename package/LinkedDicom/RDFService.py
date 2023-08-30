@@ -1,5 +1,6 @@
 import rdflib
 from rdflib import RDF, RDFS, Literal, URIRef
+import urllib.parse
 
 class GraphService:
     def __init__(self, filePath=None):
@@ -21,6 +22,7 @@ class GraphService:
     def replaceShortToUri(self, iriString):
         for ns in self.__graph.namespaces():
             iriString = iriString.replace(str(ns[0]) + ":", str(ns[1]))
+            iriString = urllib.parse.quote(iriString)
         return URIRef(iriString)
     
     def removeNamespaceFromClass(self, iriString):
@@ -29,6 +31,7 @@ class GraphService:
         return iriString
 
     def valueAsIri(self, value):
+        value = urllib.parse.quote(value)
         return self.replaceShortToUri("data:" + value)
 
     def instanceIriExists(self, iriString):
