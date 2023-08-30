@@ -20,9 +20,13 @@ class GraphService:
         return uriString
     
     def replaceShortToUri(self, iriString):
+        content = iriString[iriString.find(":")+1:]
+        content = urllib.parse.quote(content)
+        prefix = iriString[0:iriString.find(":")+1]
+        iriString = f"{prefix}{content}"
+        
         for ns in self.__graph.namespaces():
             iriString = iriString.replace(str(ns[0]) + ":", str(ns[1]))
-            iriString = urllib.parse.quote(iriString)
         return URIRef(iriString)
     
     def removeNamespaceFromClass(self, iriString):
