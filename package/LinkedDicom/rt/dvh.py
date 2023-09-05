@@ -96,6 +96,10 @@ class DVH_dicompyler(DVH_factory):
                         "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_point",
                         "@type": "@id"
                     },
+                    "dvh_curve": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_curve",
+                        "@type": "@id"
+                    },
                     "d_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_d_point",
                     "v_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_v_point",
                     "Gray": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/Gray",
@@ -158,15 +162,19 @@ class DVH_dicompyler(DVH_factory):
                     "v_point": dvh_v[i]
                 })
 
+            id = "http://data.local/ldcm-rt/" + str(uuid4())
             structOut = {
-                "@id": "http://data.local/ldcm-rt/" + str(uuid4()),
+                "@id": id,
                 "structureName": structure["name"],
-                "min": { "unit": "Gray", "value": calcdvh.min },
-                "mean": { "unit": "Gray", "value": calcdvh.mean },
-                "max": { "unit": "Gray", "value": calcdvh.max },
-                "volume": { "unit": "cc", "value": int(calcdvh.volume) },
+                "min": { "@id": f"{id}/min", "unit": "Gray", "value": calcdvh.min },
+                "mean": { "@id": f"{id}/mean", "unit": "Gray", "value": calcdvh.mean },
+                "max": { "@id": f"{id}/max", "unit": "Gray", "value": calcdvh.max },
+                "volume": { "@id": f"{id}/volume", "unit": "cc", "value": int(calcdvh.volume) },
                 "color": ','.join(str(e) for e in structure["color"].tolist()),
-                "dvh_points": dvh_points
+                "dvh_curve": {
+                    "@id": f"{id}/dvh_curve",
+                    "dvh_points": dvh_points
+                }
             }
             dvh_list.append(structOut)
         return dvh_list
