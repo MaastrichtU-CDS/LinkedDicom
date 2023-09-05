@@ -1,6 +1,9 @@
 from LinkedDicom import RDFService
+import datetime
 from abc import ABC, abstractmethod
 from dicompylercore import dicomparser, dvh, dvhcalc # TODO do not load this module if dicompyler is not used
+import dicompylercore
+from uuid import uuid4
 import rdflib
 import json
 
@@ -55,6 +58,63 @@ class DVH_dicompyler(DVH_factory):
         for dosePackage in dcmDosePackages:
             print(f"{dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
             calculatedDose = self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath)
+            resultDict = {
+                  "@context": {
+                    "CalculationResult": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/CalculationResult",
+                    "references": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/references",
+                        "@type": "@id"
+                    },
+                    "software": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/software",
+                        "@type": "@id"
+                    },
+                    "version": "https://schema.org/version",
+                    "dateCreated": "https://schema.org/dateCreated",
+                    "containsStructureDose": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/containsStructureDose",
+                        "@type": "@id"
+                    },
+                    "structureName": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/structureName",
+                    "min": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/min",
+                        "@type": "@id"
+                    },
+                    "mean": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/mean",
+                        "@type": "@id"
+                    },
+                    "max": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/max",
+                        "@type": "@id"
+                    },
+                    "volume": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/volume",
+                        "@type": "@id"
+                    },
+                    "dvh_points": {
+                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_point",
+                        "@type": "@id"
+                    },
+                    "d_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_d_point",
+                    "v_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_v_point",
+                    "Gray": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/Gray",
+                    "cc": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/cc",
+                    "unit": "@type",
+                    "value": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/has_value",
+                    "has_color": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/has_color"
+                },
+                "@type": "CalculationResult",
+                "@id": "http://data.local/ldcm-rt/" + str(uuid4()),
+                "references": [ dosePackage.rtDose, dosePackage.rtStruct ],
+                "software": {
+                    "@id": "https://github.com/dicompyler/dicompyler-core",
+                    "version": dicompylercore.__version__
+                },
+                "dateCreated": datetime.datetime.now().isoformat(),
+                "containsStructureDose": calculatedDose
+            }
+            print(json.dumps(resultDict, indent=2))
 
     
     def __get_dvh_for_structures(self, rtStructPath, rtDosePath):
@@ -74,6 +134,7 @@ class DVH_dicompyler(DVH_factory):
                 - dvh_d: list of dose values on the DVH curve
                 - dvh_v: list of volume values on the DVH curve
         """
+
         if type(rtStructPath) == rdflib.term.URIRef:
             rtStructPath = str(rtStructPath).replace("file://", "")
         structObj = dicomparser.DicomParser(rtStructPath)
@@ -87,15 +148,25 @@ class DVH_dicompyler(DVH_factory):
         for index in structures:
             structure = structures[index]
             calcdvh = dvhcalc.get_dvh(rtStructPath, rtDosePath, index)
+
+            dvh_d = calcdvh.bincenters.tolist()
+            dvh_v = calcdvh.counts.tolist()
+            dvh_points = []
+            for i in range(0, len(dvh_d)):
+                dvh_points.append({
+                    "d_point": dvh_d[i],
+                    "v_point": dvh_v[i]
+                })
+
             structOut = {
+                "@id": "http://data.local/ldcm-rt/" + str(uuid4()),
                 "structureName": structure["name"],
-                "min": calcdvh.min,
-                "mean": calcdvh.mean,
-                "max": calcdvh.max,
-                "volume": int(calcdvh.volume),
-                "color": structure["color"].tolist(),
-                "dvh_d": calcdvh.bincenters.tolist(),
-                "dvh_v": calcdvh.counts.tolist()
+                "min": { "unit": "Gray", "value": calcdvh.min },
+                "mean": { "unit": "Gray", "value": calcdvh.mean },
+                "max": { "unit": "Gray", "value": calcdvh.max },
+                "volume": { "unit": "cc", "value": int(calcdvh.volume) },
+                "color": ','.join(str(e) for e in structure["color"].tolist()),
+                "dvh_points": dvh_points
             }
             dvh_list.append(structOut)
         return dvh_list
