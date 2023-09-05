@@ -54,10 +54,26 @@ class DVH_dicompyler(DVH_factory):
         dcmDosePackages = self.__find_complete_packages()
         for dosePackage in dcmDosePackages:
             print(f"{dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
-            print(json.dumps(self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath), indent=2))
+            calculatedDose = self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath)
 
     
     def __get_dvh_for_structures(self, rtStructPath, rtDosePath):
+        """
+        Calculate DVH parameters for all structures available in the RTSTRUCT file.
+        Input:
+            - rtStructPath: an URIRef or string containing the file path of the RTSTRUCT file
+            - rtDosePath: an URIRef or string containing the file path of the RTDOSE file
+        Output:
+            - A python list containing a dictionaries with the following items:
+                - structureName: name of the structure as given in the RTSTRUCT file
+                - min: minimum dose to the structure
+                - mean: mean dose for this structure
+                - max: maximum dose for this structure
+                - volume: volume of the structure
+                - color: color (Red Green Blue) for the structure on a scale of 0-255
+                - dvh_d: list of dose values on the DVH curve
+                - dvh_v: list of volume values on the DVH curve
+        """
         if type(rtStructPath) == rdflib.term.URIRef:
             rtStructPath = str(rtStructPath).replace("file://", "")
         structObj = dicomparser.DicomParser(rtStructPath)
