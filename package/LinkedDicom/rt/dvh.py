@@ -6,20 +6,17 @@ import dicompylercore
 from uuid import uuid4
 import rdflib
 import json
+import os
 
 class DVH_factory(ABC):
     def __init__(self, filePath):
         self.__ldcm_graph = RDFService.GraphService(filePath)
-        self.__calculation_graph = RDFService.GraphService()
     
     def get_ldcm_graph(self):
         return self.__ldcm_graph
-    
-    def get_calculation_graph(self):
-        return self.__calculation_graph
 
     @abstractmethod
-    def calculate_dvh(self):
+    def calculate_dvh(self, folder_to_store_results):
         pass
 
 class DVH_dicompyler(DVH_factory):
@@ -53,11 +50,12 @@ class DVH_dicompyler(DVH_factory):
         dose_objects = self.get_ldcm_graph().runSparqlQuery(query)
         return dose_objects
 
-    def calculate_dvh(self):
+    def calculate_dvh(self, folder_to_store_results):
         dcmDosePackages = self.__find_complete_packages()
         for dosePackage in dcmDosePackages:
-            print(f"{dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
+            print(f"Processing {dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
             calculatedDose = self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath)
+            uuid_for_calculation = uuid4()
             resultDict = {
                   "@context": {
                     "CalculationResult": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/CalculationResult",
@@ -66,7 +64,7 @@ class DVH_dicompyler(DVH_factory):
                         "@type": "@id"
                     },
                     "software": {
-                        "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/software",
+                        "@id": "https://schema.org/SoftwareApplication",
                         "@type": "@id"
                     },
                     "version": "https://schema.org/version",
@@ -102,14 +100,14 @@ class DVH_dicompyler(DVH_factory):
                     },
                     "d_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_d_point",
                     "v_point": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/dvh_v_point",
-                    "Gray": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/Gray",
-                    "cc": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/cc",
+                    "Gray": "http://purl.obolibrary.org/obo/UO_0000134",
+                    "cc": "http://purl.obolibrary.org/obo/UO_0000097",
                     "unit": "@type",
-                    "value": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/has_value",
+                    "value": "https://schema.org/value",
                     "has_color": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/has_color"
                 },
                 "@type": "CalculationResult",
-                "@id": "http://data.local/ldcm-rt/" + str(uuid4()),
+                "@id": "http://data.local/ldcm-rt/" + str(uuid_for_calculation),
                 "references": [ dosePackage.rtDose, dosePackage.rtStruct ],
                 "software": {
                     "@id": "https://github.com/dicompyler/dicompyler-core",
@@ -118,7 +116,10 @@ class DVH_dicompyler(DVH_factory):
                 "dateCreated": datetime.datetime.now().isoformat(),
                 "containsStructureDose": calculatedDose
             }
-            print(json.dumps(resultDict, indent=2))
+            
+            filename = os.path.join(folder_to_store_results, f"{uuid_for_calculation}.jsonld")
+            with open(filename, "w") as f:
+                json.dump(resultDict, f)
 
     
     def __get_dvh_for_structures(self, rtStructPath, rtDosePath):
@@ -145,7 +146,7 @@ class DVH_dicompyler(DVH_factory):
         
         if type(rtDosePath) == rdflib.term.URIRef:
             rtDosePath = str(rtDosePath).replace("file://", "")
-        doseObj = dicomparser.DicomParser(rtDosePath)
+        # doseObj = dicomparser.DicomParser(rtDosePath)
 
         structures = structObj.GetStructures()
         dvh_list = [ ]

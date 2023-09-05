@@ -29,7 +29,7 @@ def main_parse(dicom_input_folder, ontology_file, file_persistent):
 @click.argument('output_location', type=click.Path(exists=False))
 def calc_dvh(ldcm_rdf_location, output_location):
     dvh_factory = dvh.DVH_dicompyler(ldcm_rdf_location)
-    dvh_factory.calculate_dvh()
+    dvh_factory.calculate_dvh(output_location)
 
 if __name__=="__main__":
     main_parse()
