@@ -155,6 +155,15 @@
     
 
 
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00B0 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00B0">
+        <rdfs:label>Beam Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/has_image -->
 
     <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/has_image">
@@ -425,7 +434,18 @@
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Structure Set Date</rdfs:label>
         <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
     </owl:DatatypeProperty>
-    
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300E0002 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300E0002">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Plan_Object"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Approval Status</rdfs:label>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Plan_Object"/>
+    </owl:DatatypeProperty>
+
 
 
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T30060026 -->
@@ -439,6 +459,15 @@
     
 
 
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A0071 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A0071">
+        <rdfs:label>Fraction Group Number</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A0078 -->
 
     <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A0078">
@@ -446,6 +475,78 @@
         <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
     </owl:DatatypeProperty>
     
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A0080 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A0080">
+        <rdfs:label>Number of Beams</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T00080070 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T00080070">
+        <rdfs:label>Manufacturer</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T00081090 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T00081090">
+        <rdfs:label>Manufacturer's model name</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C0 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C0">
+        <rdfs:label>Beam Number</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C2 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C2">
+        <rdfs:label>Beam Name</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C4 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C4">
+        <rdfs:label>Beam Type</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C6 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00C6">
+        <rdfs:label>Radiation Type</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A00CE -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A00CE">
+        <rdfs:label>Treatment Delivery Type</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:DatatypeProperty>
+
 
 
     <!-- 
@@ -456,6 +557,25 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Beam Sequence</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Beam Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Beam_Sequence"/>
+    </owl:Class>
     
 
 
