@@ -1,0 +1,18 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <https://schema.org/>
+prefix ldcm-dvh: <https://johanvansoest.nl/ontologies/LinkedDicom-dvh/>
+PREFIX ou: <http://purl.obolibrary.org/obo/UO_>
+
+select *
+where { 
+	?calculation_job rdf:type ldcm-dvh:CalculationResult;
+    	ldcm-dvh:containsStructureDose ?structureDose.
+    
+    ?structureDose ldcm-dvh:structureName "Lung_L";
+    	ldcm-dvh:dvh_curve ?curve.
+    ?curve ldcm-dvh:dvh_point [
+    	ldcm-dvh:dvh_d_point ?d_value;
+     	ldcm-dvh:dvh_v_point ?v_value;
+	];
+}
+ORDER BY ?d_value

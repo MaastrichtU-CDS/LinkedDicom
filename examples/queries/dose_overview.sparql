@@ -1,0 +1,18 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <https://schema.org/>
+prefix ldcm-dvh: <https://johanvansoest.nl/ontologies/LinkedDicom-dvh/>
+PREFIX ou: <http://purl.obolibrary.org/obo/UO_>
+
+select ?calculation_job ?softwareUsed ?dateTime ?structureName ?minDose ?meanDose ?maxDose ?volumeCC
+where { 
+	?calculation_job rdf:type ldcm-dvh:CalculationResult;
+    	ldcm-dvh:containsStructureDose ?structureDose;
+     	schema:SoftwareApplication ?softwareUsed;
+      	schema:dateCreated ?dateTime.
+    
+    ?structureDose ldcm-dvh:structureName ?structureName;
+		ldcm-dvh:min [ schema:value ?minDose; ];
+		ldcm-dvh:mean [ schema:value ?meanDose; ];
+		ldcm-dvh:max [ schema:value ?maxDose; ];
+		ldcm-dvh:volume [ schema:value ?volumeCC; rdf:type ou:0000097; ];
+}

@@ -1,0 +1,24 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <https://schema.org/>
+prefix ldcm-dvh: <https://johanvansoest.nl/ontologies/LinkedDicom-dvh/>
+PREFIX ou: <http://purl.obolibrary.org/obo/UO_>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+select ?calculation_job (xsd:int(round(avg(?v_value))) as ?v)
+where {
+    BIND(xsd:double(30) AS ?d_point).
+    BIND(xsd:double(0.01) AS ?tolerance).
+    BIND("Heart" AS ?structureName)
+        
+	?calculation_job rdf:type ldcm-dvh:CalculationResult;
+    	ldcm-dvh:containsStructureDose ?structureDose.
+    
+    ?structureDose ldcm-dvh:structureName ?structureName;
+    	ldcm-dvh:dvh_curve ?curve.
+    ?curve ldcm-dvh:dvh_point [
+    	ldcm-dvh:dvh_d_point ?d_value;
+     	ldcm-dvh:dvh_v_point ?v_value;
+	];
+  filter ((?d_value > (?d_point - ?tolerance)) && (?d_value < (?d_point + ?tolerance)))
+}
+GROUP BY ?calculation_job
