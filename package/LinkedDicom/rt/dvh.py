@@ -9,8 +9,11 @@ import json
 import os
 
 class DVH_factory(ABC):
-    def __init__(self, filePath):
-        self.__ldcm_graph = RDFService.GraphService(filePath)
+    def __init__(self, file_or_graph_service):
+        if type(file_or_graph_service)==RDFService.GraphService:
+            self.__ldcm_graph = file_or_graph_service
+        else:
+            self.__ldcm_graph = RDFService.GraphService(file_or_graph_service)
     
     def get_ldcm_graph(self):
         return self.__ldcm_graph
@@ -52,6 +55,7 @@ class DVH_dicompyler(DVH_factory):
 
     def calculate_dvh(self, folder_to_store_results):
         dcmDosePackages = self.__find_complete_packages()
+        results = []
         for dosePackage in dcmDosePackages:
             print(f"Processing {dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
             calculatedDose = self.__get_dvh_for_structures(dosePackage.rtStructPath, dosePackage.rtDosePath)
@@ -117,10 +121,25 @@ class DVH_dicompyler(DVH_factory):
                 "containsStructureDose": calculatedDose
             }
             
-            filename = os.path.join(folder_to_store_results, f"{uuid_for_calculation}.jsonld")
-            with open(filename, "w") as f:
-                json.dump(resultDict, f)
+            if folder_to_store_results is not None:
+                filename = os.path.join(folder_to_store_results, f"{uuid_for_calculation}.jsonld")
+                with open(filename, "w") as f:
+                    json.dump(resultDict, f)
+            else:
+                results.append(resultDict)
+        
+        if folder_to_store_results is None:
+            return results
 
+    def calculate_dvh_output_triples(self):
+        resultTriples = ""
+        result_list = self.calculate_dvh(None)
+        for ld_dict in result_list:
+            # print(ld_dict)
+            g = rdflib.Graph()
+            g.parse(data=json.dumps(ld_dict), format="json-ld")
+            resultTriples += g.serialize(format="nt")
+        return resultTriples
     
     def __get_dvh_for_structures(self, rtStructPath, rtDosePath):
         """

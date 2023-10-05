@@ -38,10 +38,27 @@ Usage: ldcm-parse [OPTIONS] DICOM_INPUT_FOLDER
 
 Options:
   -o, --ontology-file TEXT  Location of ontology file to use for override.
+  -fp, --file-persistent    Store file path while parsing metadata.
   --help                    Show this message and exit.
 ```
 
 The output is saved in linkeddicom.ttl in the DICOM_INPUT_FOLDER. This data can be used by importing it into an RDF endpoint (such as Apache Jena or GraphDB).
+**If you want to use the files afterwards to calculate DVH parameters, you need to include the -fp option.**
+
+### Calculating DVH curves locally
+
+Based on the previous parsing (`ldcm-parse`) you can calculate DVH curve results and store them in a JSON-LD file (per RTSTRUCT-RTDOSE combination). Currently, the combination is being calculated following the references in the DICOM file:
+
+- RTDOSE references to RTPlan
+- RTPlan references to RTStruct
+
+A copy of this help is presented below:
+```
+Usage: ldcm-calc-dvh [OPTIONS] LDCM_RDF_LOCATION OUTPUT_LOCATION
+
+Options:
+  --help  Show this message and exit.
+```
 
 ### DICOM SCP service
 This tool can be used if you want to start a DICOM SCP service which supports C-STORE commands.
@@ -56,10 +73,12 @@ Usage: ldcm-scp [OPTIONS] PORT
   the analysis is triggered in a separate thread.
 
 Options:
-  -o, --ontology-file TEXT    Location of ontology file to use for override.
-  -s, --sparql-endpoint TEXT  SPARQL endpoint URL to post the resulting
-                              triples towards
-  --help                      Show this message and exit.
+  -o, --ontology-file TEXT       Location of ontology file to use for
+                                 override.
+  -s, --sparql-endpoint TEXT     SPARQL endpoint URL to post the resulting
+                                 triples towards
+  -dvh, --dose-volume-histogram  Compute and store DVH for all available structures.
+  --help                         Show this message and exit.
 ```
 
 By default, the UUID for the DICOM association is used as filename for the created local turtle file.

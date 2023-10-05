@@ -13,7 +13,7 @@ from pynetdicom import (
 )
 
 class SCP_handlers:
-    def __init__(self, ontology_file, sparql_endpoint):
+    def __init__(self, ontology_file, sparql_endpoint, dose_volume_histogram):
         # Create association list
         self.__assocFolderDict = { }
         # Create folder where results are actually stored
@@ -21,6 +21,7 @@ class SCP_handlers:
         os.makedirs(self.__dataDir, exist_ok=True)
         self.__ontology_file = ontology_file
         self.__sparql_endpoint = sparql_endpoint
+        self.__process_dvh = dose_volume_histogram
     
     def handle_assoc_open(self, event):
         """
@@ -63,20 +64,21 @@ class SCP_handlers:
         os.system("chmod -R 777 %s" % self.__assocFolderDict[event.assoc]["directory"])
         
         print("Try to start process")
-        p = Process(target=run_ldcm, args=(self.__assocFolderDict[event.assoc],self.__ontology_file,self.__sparql_endpoint,))
+        p = Process(target=run_ldcm, args=(self.__assocFolderDict[event.assoc],self.__ontology_file,self.__sparql_endpoint, self.__process_dvh,))
         p.start()
 
 @click.command()
 @click.argument('port', type=click.INT)
 @click.option('-o', '--ontology-file', help='Location of ontology file to use for override.')
 @click.option('-s', '--sparql-endpoint', help='SPARQL endpoint URL to post the resulting triples towards')
-def start_scp(port, ontology_file, sparql_endpoint):
+@click.option('-dvh', '--dose-volume-histogram', is_flag=True, default=False, help='Compute and store DVH for all available structures.')
+def start_scp(port, ontology_file, sparql_endpoint, dose_volume_histogram):
     """
     Create a DICOM SCP which can accept C-STORE commands. For every association, an analysis is triggered on association close.
     For every association close, the analysis is triggered in a separate thread.
     """
 
-    scpHandlers = SCP_handlers(ontology_file, sparql_endpoint)
+    scpHandlers = SCP_handlers(ontology_file, sparql_endpoint, dose_volume_histogram)
     handlers = [(evt.EVT_C_STORE, scpHandlers.handle_store), (evt.EVT_CONN_OPEN, scpHandlers.handle_assoc_open), (evt.EVT_CONN_CLOSE, scpHandlers.handle_assoc_close)]
 
     # Initialise the Application Entity
@@ -92,31 +94,48 @@ def start_scp(port, ontology_file, sparql_endpoint):
     # Start listening for incoming association requests
     ae.start_server(('', port), evt_handlers=handlers)
 
-def run_ldcm(dict_info, ontology_file_path, sparql_endpoint_url):
+def run_ldcm(dict_info, ontology_file_path, sparql_endpoint_url, process_dvh):
     ldcm = LinkedDicom.LinkedDicom(ontology_file_path)
     
     dicom_input_folder = dict_info['directory']
     print(f"Start processing folder {dicom_input_folder}. Depending on the folder size this might take a while.")
-    
-    ldcm.processFolder(dicom_input_folder)
 
+    if process_dvh:
+        ldcm.processFolder(dicom_input_folder, True)
+        from LinkedDicom.rt import dvh
+        dvh_factory = dvh.DVH_dicompyler(ldcm.graphService)
+    else:
+        ldcm.processFolder(dicom_input_folder)
+    
     if sparql_endpoint_url is None:
-        output_location = os.path.join(dicom_input_folder, "..", f"{dict_info['uuid']}.ttl") 
+        output_folder = os.path.join(dicom_input_folder, "..")
+        output_location = os.path.join(output_folder, f"{dict_info['uuid']}.ttl") 
         ldcm.saveResults(output_location)
+        
+        if process_dvh:
+            dvh_factory.calculate_dvh(output_folder)
+        
         print("Stored results in " + output_location)
     else:
         turtle = ldcm.graphService.getTriplesTurtle()
-        loadRequest = requests.post(sparql_endpoint_url,
-            data=turtle, 
-            headers={
-                "Content-Type": "application/x-turtle"
-            }
-        )
+        __post_rdf(sparql_endpoint_url, turtle)
         
-        if loadRequest.status_code >= 200 | loadRequest.status_code > 210:
-            print(f"Received error code {loadRequest.status_code}\n{loadRequest.text}")
+        if process_dvh:
+            triples = dvh_factory.calculate_dvh_output_triples()
+            __post_rdf(sparql_endpoint_url, triples)
 
     shutil.rmtree(dicom_input_folder)
+
+def __post_rdf(sparql_endpoint_url, turtle):
+    loadRequest = requests.post(sparql_endpoint_url,
+        data=turtle, 
+        headers={
+            "Content-Type": "application/x-turtle"
+        }
+    )
+    
+    if loadRequest.status_code >= 200 | loadRequest.status_code > 210:
+        print(f"Received error code {loadRequest.status_code}\n{loadRequest.text}")
 
 if __name__=="__main__":
     start_scp()
