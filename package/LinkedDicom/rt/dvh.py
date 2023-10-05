@@ -22,39 +22,85 @@ class DVH_factory(ABC):
     def calculate_dvh(self, folder_to_store_results):
         pass
 
-class DVH_dicompyler(DVH_factory):
-    
-    def __find_complete_packages(self):
-        query = """
-            PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            PREFIX owl: <http://www.w3.org/2002/07/owl#>
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            PREFIX schema: <https://schema.org/>
+class RT_Query_Type:
+    DICOM_STUDY = 'dcm-study'
+    RT_DIRECT_REFERENCES = 'rt-direct-reference'
 
-            SELECT ?rtDose ?rtDosePath ?rtStruct ?rtStructPath
-            WHERE {
-                ?rtPlan rdf:type ldcm:Radiotherapy_Plan_Object.
-                
-                ?dcmSerieRtPlan ldcm:has_image ?rtPlan.
-                ?dcmStudy ldcm:has_series ?dcmSerieRtPlan.
-                
-                ?dcmStudy ldcm:has_series ?dcmSerieRtStruct.
-                ?dcmSerieRtStruct ldcm:has_image ?rtStruct.
-                ?rtStruct rdf:type ldcm:Radiotherapy_Structure_Object.
-                ?rtStruct schema:contentUrl ?rtStructPath.
-                
-                ?dcmStudy ldcm:has_series ?dcmSerieRtDose.
-                ?dcmSerieRtDose ldcm:has_image ?rtDose.
-                ?rtDose rdf:type ldcm:Radiotherapy_Dose_Object.
-                ?rtDose schema:contentUrl ?rtDosePath.
-            }
-            """
+class DVH_dicompyler(DVH_factory):
+    def __find_complete_packages(self, queryType=RT_Query_Type.RT_DIRECT_REFERENCES):
+        query = None
+        if (queryType==RT_Query_Type.DICOM_STUDY):
+            query = """
+                PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX schema: <https://schema.org/>
+
+                SELECT ?rtDose ?rtDosePath ?rtStruct ?rtStructPath
+                WHERE {
+                    ?rtPlan rdf:type ldcm:Radiotherapy_Plan_Object.
+                    
+                    ?dcmSerieRtPlan ldcm:has_image ?rtPlan.
+                    ?dcmStudy ldcm:has_series ?dcmSerieRtPlan.
+                    
+                    ?dcmStudy ldcm:has_series ?dcmSerieRtStruct.
+                    ?dcmSerieRtStruct ldcm:has_image ?rtStruct.
+                    ?rtStruct rdf:type ldcm:Radiotherapy_Structure_Object.
+                    ?rtStruct schema:contentUrl ?rtStructPath.
+                    
+                    ?dcmStudy ldcm:has_series ?dcmSerieRtDose.
+                    ?dcmSerieRtDose ldcm:has_image ?rtDose.
+                    ?rtDose rdf:type ldcm:Radiotherapy_Dose_Object.
+                    ?rtDose schema:contentUrl ?rtDosePath.
+                }
+                """
+        if (queryType==RT_Query_Type.RT_DIRECT_REFERENCES):
+            query = """
+                PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX schema: <https://schema.org/>
+
+                SELECT ?rtDose ?rtDosePath ?rtStruct ?rtStructPath
+                WHERE {
+                    ?rtDose rdf:type ldcm:Radiotherapy_Dose_Object;
+                        ldcm:T300C0002 [
+                            ldcm:has_sequence_item [
+                                ldcm:R00081155 ?rtPlan;
+                            ];
+                        ].
+                    ?rtDose schema:contentUrl ?rtDosePath.
+                    
+                    ?rtPlan rdf:type ldcm:Radiotherapy_Plan_Object;
+                        ldcm:T300C0060 [
+                            ldcm:has_sequence_item [
+                                ldcm:R00081155 ?rtStruct;
+                            ];
+                        ].
+                    ?rtStruct rdf:type ldcm:Radiotherapy_Structure_Object.
+                    ?rtStruct schema:contentUrl ?rtStructPath.
+                }
+                """
         dose_objects = self.get_ldcm_graph().runSparqlQuery(query)
         return dose_objects
 
-    def calculate_dvh(self, folder_to_store_results):
-        dcmDosePackages = self.__find_complete_packages()
+    def calculate_dvh(self, folder_to_store_results, reference_type=RT_Query_Type.RT_DIRECT_REFERENCES):
+        """
+        Function which calculates the DVH for specific combinations of RTStruct and RTDose.
+
+        Input:
+            - folder_to_store_results: folder where results of the DVH location are stored as JSON-LD files.
+                If no folder is specified (value=None) the result will be a list of dictionaries following JSON-LD specification.
+            - reference_type: the method to search how RTDose and RTStructs are linked. If input parameter is not specified, the default
+                will be RT_Query_Type.RT_DIRECT_REFERENCES which means RTDose <refers_to> RT Plan <refers_to> RT Structure Set.
+        
+        Output:
+            - If folder_to_store_results input parameter is None, the result will be a a list of dictionaries following JSON-LD specification.
+                This list contains the DVH calculation result for every combination of RTDose and RTStructure set found.
+        """
+        dcmDosePackages = self.__find_complete_packages(reference_type)
         results = []
         for dosePackage in dcmDosePackages:
             print(f"Processing {dosePackage.rtDose} | {dosePackage.rtDosePath} | {dosePackage.rtStructPath} ")
