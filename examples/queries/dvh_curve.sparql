@@ -9,6 +9,7 @@ where {
     	ldcm-dvh:containsStructureDose ?structureDose.
     
     ?structureDose ldcm-dvh:structureName "Lung_L";
+        <https://www.wikidata.org/wiki/Q284140> ?sRGB;
     	ldcm-dvh:dvh_curve ?curve.
     ?curve ldcm-dvh:dvh_point [
     	ldcm-dvh:dvh_d_point ?d_value;

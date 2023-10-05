@@ -3,7 +3,7 @@ PREFIX schema: <https://schema.org/>
 prefix ldcm-dvh: <https://johanvansoest.nl/ontologies/LinkedDicom-dvh/>
 PREFIX ou: <http://purl.obolibrary.org/obo/UO_>
 
-select ?calculation_job ?softwareUsed ?dateTime ?structureName ?minDose ?meanDose ?maxDose ?volumeCC
+select ?calculation_job ?softwareUsed ?dateTime ?structureName ?sRGB ?minDose ?meanDose ?maxDose ?volumeCC
 where { 
 	?calculation_job rdf:type ldcm-dvh:CalculationResult;
     	ldcm-dvh:containsStructureDose ?structureDose;
@@ -11,6 +11,7 @@ where {
       	schema:dateCreated ?dateTime.
     
     ?structureDose ldcm-dvh:structureName ?structureName;
+		<https://www.wikidata.org/wiki/Q284140> ?sRGB;
 		ldcm-dvh:min [ schema:value ?minDose; ];
 		ldcm-dvh:mean [ schema:value ?meanDose; ];
 		ldcm-dvh:max [ schema:value ?maxDose; ];
