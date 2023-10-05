@@ -124,6 +124,7 @@ class DVH_dicompyler(DVH_factory):
                         "@type": "@id"
                     },
                     "structureName": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/structureName",
+                    "color": "https://www.wikidata.org/wiki/Q284140",
                     "min": {
                         "@id": "https://johanvansoest.nl/ontologies/LinkedDicom-dvh/min",
                         "@type": "@id"
