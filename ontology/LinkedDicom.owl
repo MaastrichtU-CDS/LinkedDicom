@@ -98,7 +98,25 @@
         <rdfs:label>Referenced Frame of Reference Sequence</rdfs:label>
         <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
     </owl:ObjectProperty>
-    
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300C0002 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300C0002">
+        <rdfs:label>Referenced RT Plan Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300C0060 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300C0060">
+        <rdfs:label>Referenced Structure Set Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence"/>
+    </owl:ObjectProperty>
+
 
 
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T30060012 -->
@@ -590,7 +608,64 @@
         <rdfs:label>Referenced Frame of Reference Sequence Item</rdfs:label>
         <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
     </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>RT Referenced Study Sequence</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>RT Referenced Study Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence"/>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Referenced RT Plan Sequence</rdfs:label>
+    </owl:Class>
     
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Referenced RT Plan Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence"/>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Referenced Structure Set Sequence</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Referenced Structure Set Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence"/>
+    </owl:Class>
+
 
 
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Sequence -->
