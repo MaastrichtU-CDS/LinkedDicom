@@ -96,16 +96,34 @@
 
     <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T30060010">
         <rdfs:label>Referenced Frame of Reference Sequence</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
     </owl:ObjectProperty>
-    
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300C0002 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300C0002">
+        <rdfs:label>Referenced RT Plan Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300C0060 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300C0060">
+        <rdfs:label>Referenced Structure Set Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence"/>
+    </owl:ObjectProperty>
+
 
 
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T30060012 -->
 
     <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T30060012">
         <rdfs:label>Radiotherapy Referenced Study Sequence</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence"/>
     </owl:ObjectProperty>
     
 
@@ -114,7 +132,7 @@
 
     <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T30060014">
         <rdfs:label>Radiotherapy Referenced Series Sequence</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence"/>
     </owl:ObjectProperty>
     
 
@@ -123,7 +141,16 @@
 
     <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T30060020">
         <rdfs:label>Structure Set ROI Sequence</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A0070 -->
+
+    <owl:ObjectProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A0070">
+        <rdfs:label>Fraction Group Sequence</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
     </owl:ObjectProperty>
     
 
@@ -182,7 +209,7 @@
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SOP instance UID</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
     </owl:DatatypeProperty>
     
 
@@ -193,7 +220,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Study Date</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -204,7 +231,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Study Time</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -215,7 +242,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Accession Number</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -226,7 +253,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Modality</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -237,7 +264,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Manufacturer</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -248,7 +275,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Study Description</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -259,7 +286,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Series Description</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -270,7 +297,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Manufacturer&apos;s Model Name</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -282,8 +309,8 @@
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence_Item"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence_Item"/>
         <rdfs:label>Referenced SOP Instance UID</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence_Item"/>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence_Item"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence_Item"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence_Item"/>
     </owl:DatatypeProperty>
     
 
@@ -294,7 +321,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient Name</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
     </owl:DatatypeProperty>
     
 
@@ -306,7 +333,7 @@
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient ID</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
     </owl:DatatypeProperty>
     
 
@@ -317,7 +344,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient&apos;s Birth Date</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Patient"/>
     </owl:DatatypeProperty>
     
 
@@ -328,7 +355,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient&apos;s Sex</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -340,7 +367,7 @@
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Study Instance UID</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Study"/>
     </owl:DatatypeProperty>
     
 
@@ -352,7 +379,7 @@
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Series Instance UID</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -363,7 +390,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frame of Reference UID</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Series"/>
     </owl:DatatypeProperty>
     
 
@@ -374,7 +401,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Structure Set Label</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
     </owl:DatatypeProperty>
     
 
@@ -385,7 +412,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Structure Set Description</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
     </owl:DatatypeProperty>
     
 
@@ -396,7 +423,7 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Structure Set Date</rdfs:label>
-        <LinkedDicom:related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
+        <related_to_information_entity rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object"/>
     </owl:DatatypeProperty>
     
 
@@ -407,7 +434,16 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence"/>
         <rdfs:label>ROI Name</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence_Item"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence_Item"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/T300A0078 -->
+
+    <owl:DatatypeProperty rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/T300A0078">
+        <rdfs:label>Number of Fractions Planned</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
     </owl:DatatypeProperty>
     
 
@@ -428,7 +464,26 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/CT_Image">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Image"/>
         <rdfs:label>CT Image</rdfs:label>
-        <LinkedDicom:has_sop_class_uid>1.2.840.10008.5.1.4.1.1.2</LinkedDicom:has_sop_class_uid>
+        <has_sop_class_uid>1.2.840.10008.5.1.4.1.1.2</has_sop_class_uid>
+    </owl:Class>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Fraction Group Sequence</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Fraction Group Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Fraction_Group_Sequence"/>
     </owl:Class>
     
 
@@ -455,7 +510,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Entity"/>
         <rdfs:label>Information Object Definition</rdfs:label>
-        <LinkedDicom:has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T00080018"/>
+        <has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T00080018"/>
     </owl:Class>
     
 
@@ -464,7 +519,7 @@
 
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Patient">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Entity"/>
-        <LinkedDicom:has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T00100020"/>
+        <has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T00100020"/>
     </owl:Class>
     
 
@@ -474,7 +529,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Dose_Object">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
         <rdfs:label>Radiotherapy Dose Object</rdfs:label>
-        <LinkedDicom:has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.2</LinkedDicom:has_sop_class_uid>
+        <has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.2</has_sop_class_uid>
     </owl:Class>
     
 
@@ -484,7 +539,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Plan_Object">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
         <rdfs:label>Radiotherapy Plan Object</rdfs:label>
-        <LinkedDicom:has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.5</LinkedDicom:has_sop_class_uid>
+        <has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.5</has_sop_class_uid>
     </owl:Class>
     
 
@@ -503,7 +558,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence_Item">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label>Radiotherapy Referenced Series Sequence Item</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Series_Sequence"/>
     </owl:Class>
     
 
@@ -522,7 +577,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence_Item">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label>Radiotherapy Referenced Study Sequence Item</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Referenced_Study_Sequence"/>
     </owl:Class>
     
 
@@ -532,7 +587,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Radiotherapy_Structure_Object">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Object_Definition"/>
         <rdfs:label>Radiotherapy Structure Set Object</rdfs:label>
-        <LinkedDicom:has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.3</LinkedDicom:has_sop_class_uid>
+        <has_sop_class_uid>1.2.840.10008.5.1.4.1.1.481.3</has_sop_class_uid>
     </owl:Class>
     
 
@@ -551,9 +606,66 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence_Item">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label>Referenced Frame of Reference Sequence Item</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Frame_of_Reference_Sequence"/>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>RT Referenced Study Sequence</rdfs:label>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>RT Referenced Study Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/RT_Referenced_Study_Sequence"/>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Referenced RT Plan Sequence</rdfs:label>
     </owl:Class>
     
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Referenced RT Plan Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_RT_Plan_Sequence"/>
+    </owl:Class>
+
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence"/>
+        <rdfs:label>Referenced Structure Set Sequence</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence_Item -->
+
+    <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence_Item">
+        <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
+        <rdfs:label>Referenced Structure Set Sequence Item</rdfs:label>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Referenced_Structure_Set_Sequence"/>
+    </owl:Class>
+
 
 
     <!-- https://johanvansoest.nl/ontologies/LinkedDicom/Sequence -->
@@ -576,7 +688,7 @@
 
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Series">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Entity"/>
-        <LinkedDicom:has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T0020000E"/>
+        <has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T0020000E"/>
     </owl:Class>
     
 
@@ -595,7 +707,7 @@
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence_Item">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Sequence_Item"/>
         <rdfs:label>Structure Set ROI Sequence Item</rdfs:label>
-        <LinkedDicom:related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence"/>
+        <related_to_sequence rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Structure_Set_ROI_Sequence"/>
     </owl:Class>
     
 
@@ -604,7 +716,7 @@
 
     <owl:Class rdf:about="https://johanvansoest.nl/ontologies/LinkedDicom/Study">
         <rdfs:subClassOf rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/Information_Entity"/>
-        <LinkedDicom:has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T0020000D"/>
+        <has_unique_identifier rdf:resource="https://johanvansoest.nl/ontologies/LinkedDicom/T0020000D"/>
     </owl:Class>
     
 
