@@ -1,12 +1,18 @@
 import rdflib
 from rdflib import RDF, RDFS, Literal, URIRef
+import urllib.parse
 
 class GraphService:
-    def __init__(self):
+    def __init__(self, filePath=None):
         self.__graph = rdflib.Graph()
         self.__graph.bind('ldcm', 'https://johanvansoest.nl/ontologies/LinkedDicom/')
         self.__graph.bind('data', 'http://data.local/rdf/linkeddicom/')
         self.__graph.bind('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
+        self.__graph.bind('schema', 'https://schema.org/')
+        self.__graph.bind('file', 'file:/')
+
+        if filePath is not None:
+            self.__graph.parse(filePath, format=rdflib.util.guess_format(filePath))
 
     def replaceUriToShort(self, uriString):
         for ns in self.__graph.namespaces():
@@ -14,6 +20,11 @@ class GraphService:
         return uriString
     
     def replaceShortToUri(self, iriString):
+        content = iriString[iriString.find(":")+1:]
+        content = urllib.parse.quote(content)
+        prefix = iriString[0:iriString.find(":")+1]
+        iriString = f"{prefix}{content}"
+        
         for ns in self.__graph.namespaces():
             iriString = iriString.replace(str(ns[0]) + ":", str(ns[1]))
         return URIRef(iriString)
@@ -24,12 +35,13 @@ class GraphService:
         return iriString
 
     def valueAsIri(self, value):
+        value = urllib.parse.quote(value)
         return self.replaceShortToUri("data:" + value)
 
     def instanceIriExists(self, iriString):
         return (self.replaceShortToUri(iriString), None, None) in self.__graph
 
-    def createOrGetInstance(self, classUri, identifier, identifierPredicate):
+    def createOrGetInstance(self, classUri, identifier, identifierPredicate=None):
         iriClass = self.replaceUriToShort(classUri)
         if identifier.startswith("data:"):
             instanceIri = identifier

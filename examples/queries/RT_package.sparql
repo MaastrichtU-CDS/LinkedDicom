@@ -1,0 +1,34 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ldcm: <https://johanvansoest.nl/ontologies/LinkedDicom/>
+
+select * 
+where { 
+	?rtDose rdf:type ldcm:Radiotherapy_Dose_Object;
+         ldcm:T300C0002 [
+	        ldcm:has_sequence_item [
+        		ldcm:R00081155 ?rtPlan;
+    		];
+	    ].
+    
+    ?rtPlan rdf:type ldcm:Radiotherapy_Plan_Object;
+    	ldcm:T300C0060 [
+	        ldcm:has_sequence_item [
+        		ldcm:R00081155 ?rtStruct;
+    		];
+	    ].
+    
+    ?rtStruct rdf:type ldcm:Radiotherapy_Structure_Object;
+    	ldcm:T30060010 [
+        	ldcm:has_sequence_item [
+		        ldcm:T30060012 [
+			        ldcm:has_sequence_item [
+        				ldcm:T30060014 [
+					        ldcm:has_sequence_item [
+        						ldcm:R0020000E ?ctSeries;
+						    ];
+					    ];
+				    ];
+			    ];
+    		];
+    	].
+}
