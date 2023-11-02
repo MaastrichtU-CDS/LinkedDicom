@@ -27,15 +27,15 @@ def main_parse(dicom_input_folder, ontology_file, file_persistent):
 @click.command()
 @click.argument('ldcm-rdf-location', type=click.Path(exists=True))
 @click.argument('output_location', type=click.Path(exists=False))
-@click.argument('reference_type', help="Define the method of reference between RTDose and RTPlan. Default is 'seq_ref'", default="seq_ref")
-def calc_dvh(ldcm_rdf_location, output_location):
+@click.option('-rt', '--reference_type', help="Define the method of reference between RTDose and RTPlan. Default is 'seq_ref'", default="seq_ref")
+def calc_dvh(ldcm_rdf_location, output_location, reference_type):
     dvh_factory = dvh.DVH_dicompyler(ldcm_rdf_location)
 
-    ref_type = RT_Query_Type.RT_DIRECT_REFERENCES
+    ref_type = dvh.RT_Query_Type.RT_DIRECT_REFERENCES
     if reference_type=="seq_ref":
-        ref_type = RT_Query_Type.RT_DIRECT_REFERENCES
+        ref_type = dvh.RT_Query_Type.RT_DIRECT_REFERENCES
     if reference_type=="study":
-        ref_type = RT_Query_Type.DICOM_STUDY
+        ref_type = dvh.RT_Query_Type.DICOM_STUDY
 
     dvh_factory.calculate_dvh(output_location, reference_type=ref_type)
 
