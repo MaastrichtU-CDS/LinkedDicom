@@ -19,7 +19,7 @@ class DVH_factory(ABC):
         return self.__ldcm_graph
 
     @abstractmethod
-    def calculate_dvh(self, folder_to_store_results):
+    def calculate_dvh(self, folder_to_store_results, reference_type):
         pass
 
 class RT_Query_Type:
