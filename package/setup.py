@@ -11,13 +11,14 @@ setup(
     description='A package to extract DICOM header data and store this in RDF',
     long_description="A package to extract DICOM header data and store this in RDF",
     install_requires=[
-        "pydicom",
+        "pydicom==2.4.5",
         "rdflib",
         "requests",
         "click",
-        "pynetdicom",
+        "pynetdicom==2.4.5",
         "requests",
-        "dicompyler-core"
+        "dicompyler-core",
+        "dicom" #needed for dicompyler-core
     ],
     entry_points = {
         'console_scripts': [
