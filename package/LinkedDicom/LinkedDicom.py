@@ -11,8 +11,8 @@ class LinkedDicom:
     def __init__(self, ontology_file_path):
         # Determine external ontology file or embedded in package
         if ontology_file_path is None:
-            import pkg_resources
-            my_data = pkg_resources.resource_string(LinkedDicom.__name__, "LinkedDicom.owl")
+            from importlib.resources import files
+            my_data = files(LinkedDicom.__name__).joinpath("LinkedDicom.owl").read_text(encoding="utf-8")
             self.ontologyService = OntologyService(my_data, True)
         else:
             self.ontologyService = OntologyService(ontology_file_path)
